@@ -25,37 +25,149 @@
 
 ### 二、SQL的数据定义
 
-​		SQL的数据定义部分包括对SQL模式(*Schema*)，基本表(*Table*)，视图(*View*)，索引(*Index*)的创建和撤销操作。使用SQL的数据定义语言（Data Definition Language，DDL）。
+​		SQL的数据定义部分包括对SQL模式(*Schema*)，基本表(*Table*)，视图(*View*)，索引(*Index*)的创建和撤销操作。
 
 #### 1、SQL模式的创建和撤销
 
-​		一个SQL模式被定义为基本表的集合。创建了一个SQL模式就是定义了一个存储空间。
+一个SQL模式被定义为基本表的集合。创建了一个SQL模式就是定义了一个存储空间。
 
-​		SQL模式的创建可以使用`CREATE`语句实现：	
+SQL模式的创建可以使用`CREATE`语句实现：	
 
 ```sql
 CREATE SCHEMA <模式名> AUTHORIZATION <用户名>
 ```
 
-​		使用MySQL创建SQL模式：
+使用MySQL创建SQL模式：
 
 ```sql
 CREATE DATABASE [IF NOT EXISTS] <数据库名> [DEFAULT CHARSET utf8 COLLATE utf8_general_ci];
 ```
 
-​		执行结果为：创建指定名称的数据库，如果数据库不存在则创建，存在则不创建；并设定编码集为utf8。
+执行结果为：创建指定名称的数据库，如果数据库不存在则创建，存在则不创建；并设定编码集为utf8。
+
+当一个SQL模式及其所属的基本表、视图都不需要时，使用`DROP`语句撤销SQL模式。
+
+```sql
+DROP SCHEMA <模式名> [CASCADE|RESTRICT]
+```
+
+> CASCADE模式下，把SQL模式及其下属的基本表、视图、索引等元素全部删除
+>
+> RESTRICT模式下，只有SQL模式没有任何下属元素时才允许撤销SQL模式
+
+使用MySQL删除SQL模式：
+
+```sql
+DROP DATABASE <数据库名>;
+```
 
 #### 2、SQL的基本数据类型
 
-​		当一个SQL模式及其所属的基本表、视图都不需要时，使用`DROP`语句撤销SQL模式。
+数值型
 
-​		DROP
+| 数据类型         | 解释                           |
+| ---------------- | ------------------------------ |
+| INTEGER          | 长整数                         |
+| SMALLINT         | 短整数                         |
+| REAl             | 浮点数                         |
+| DOUBLE PRECISION | 双精度浮点数                   |
+| FLOAT(n)         | 精度至少为n位数字的浮点数      |
+| NUMERIC(p,d)     | 由p位数字，d位小数组成的浮点数 |
+
+字符串型
+
+| 数据类型   | 解释                    |
+| ---------- | ----------------------- |
+| CHAR(n)    | 长度为n的定长字符串     |
+| VARCHAR(n) | 最大长度为n的变长字符串 |
+
+位串型
+
+| 数据类型       | 解释                        |
+| -------------- | --------------------------- |
+| BIT(n)         | 长度为n的定长二进制位串     |
+| BIT VARYING(n) | 最大长度为n的变长二进制位串 |
+
+时间型
+
+| 数据类型 | 解释       |
+| -------- | ---------- |
+| DATE     | YYYY-MM-DD |
+| TIME     | HH:MM:SS   |
 
 #### 3、基本表的创建、修改和撤销
 
+**基本表的创建**
+
+创建基本表，就是定义基本表的结构。可以用`CREATE`语句实现。
+
+```sql
+CREATE TABLE [<模式名>] <表名> (<列名> <类型>, ..., [完整性约束])
+```
+
+完整性约束包括
+
+- 主键子句`PRIMARY KEY`
+- 检查子句`CHECK`
+- 外键子句`FOREIGN KEY`
+
+```sql
+CREATE TABLE [<模式名>] <表名> (<列名> <类型>, ..., [PRIMARY KEY <列名>], [[CONSTRAINT <约束名>]CHECK <属性> BETWEEN val AND val], [FOREIGN KEY <列名> REFERENCES <表名>(<列名>)])
+```
+
+**基本表的修改**
+
+增加新的属性
+
+```sql
+ALTER TABLE <表名> ADD <新属性名> [新属性完整性约束]
+```
+
+删除原有的属性
+
+```sql
+ALTER TABLE <表名> DROP <属性名> [CASCADE|RESTRICT]
+```
+
+增加约束
+
+```sql
+ALTER TABLE <表名> ADD CONSTRAINT <约束名> CHECK(<属性> BETWEEN val AND val)
+```
+
+删除约束
+
+```sql
+ALTER TABLE <表名> DROP <约束名>
+```
+
+**删除基本表**
+
+```sql
+DROP TABLE <表名> [CASCADE|RESTRICT]
+```
+
+
+
 #### 4、视图的创建和撤销
 
+todo
+
 #### 5、索引的创建和撤销
+
+创建索引
+
+```sql
+CREATE [UNIQUE] INDEX <索引名> ON <表名> (<列名> [ASC|DESC])
+```
+
+撤销索引
+
+```sql
+DROP INDEX <索引名> ON <表名>
+```
+
+
 
 ### 三、SQL的数据查询
 
@@ -100,7 +212,7 @@ SELECT DISTINCT <列名> FROM <表名>
 **比较**（`>, <, =, >=, <=, <>`）
 
 ```sql
-SELECT <列名> FROM <表名> WHERE <属性> >= <条件>
+SELECT <列名> FROM <表名> WHERE <属性> = <条件>
 ```
 
 **条件**（`NOT, AND, OR`）
@@ -151,10 +263,10 @@ SELECT SUM([DISTINCT] <列名>) FROM <表名> WHERE <属性> = <条件>
 **分组**
 
 ```sql
-SELECT <列名>， <属性> FROM <表名> GROUP BY <属性>
+SELECT <列名>, <属性> FROM <表名> GROUP BY <属性>
 ```
 
-> SQL规定，凡是分组使用的类名必须在`SELECT`子句中出现。
+> SQL规定，凡是分组`GROUP BY`使用的类名必须在`SELECT`子句中出现。
 >
 > 对于*SQL Server*，`SELECT`中出现的属性必须在`GROUP BY`中出现，但不代表一定要按此分组；对*MySQL*则无此规定。
 
@@ -162,7 +274,7 @@ SELECT <列名>， <属性> FROM <表名> GROUP BY <属性>
 SELECT <列名>， <属性1> FROM <表名> GROUP BY <属性1> HAVING <属性2> = <值>
 ```
 
-**排序**（升序ASC，降序DESC）
+**排序**（升序`ASC`，降序`DESC`）
 
 ```sql
 SELECT <列名> FROM <表名> ORDER BY <属性>
@@ -178,12 +290,12 @@ SELECT <列名>，MAX([DISTINCT] <列名>) FROM <表名> ORDER BY 2 DESC
 **自身联接**，查询一张表相同列的两个属性
 
 ```sql
-SELECT <列名> FROM <表名> AS <别名1>，<表名> AS <别名2> WHERE <别名1>.主键 = <别名2>.主键 AND <别名1>.属性 <> <别名2>.属性
+SELECT <列名> FROM <表名> AS <别名1>，<表名> AS <别名2> WHERE <别名1>.主键 = <别名2>.主键 AND <别名1.属性> = <别名2.属性>
 ```
 
 **复合条件联接**（有相同属性）
 
 ```sql
-SELECT <表名>.<列名> FROM <表名1>，<表名2> WHERE <表名1>.键 = <表名2>.键 AND <表名1>.属性 = 'value' AND <表名2>.属性 = 'value'
+SELECT <表名.列名> FROM <表名1>，<表名2> WHERE <表名1.键> = <表名2.键> AND <表名1.属性> = 'value' AND <表名2.属性> = 'value'
 ```
 

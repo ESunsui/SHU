@@ -31,7 +31,7 @@
 
 一个SQL模式被定义为基本表的集合。创建了一个SQL模式就是定义了一个存储空间。
 
-SQL模式的创建可以使用`CREATE`语句实现：	
+SQL模式的创建可以使用`CREATE`语句实现：
 
 ```sql
 CREATE SCHEMA <模式名> AUTHORIZATION <用户名>
@@ -65,35 +65,37 @@ DROP DATABASE <数据库名>;
 
 数值型
 
-| 数据类型         | 解释                           |
-| ---------------- | ------------------------------ |
-| INTEGER          | 长整数                         |
-| SMALLINT         | 短整数                         |
-| REAl             | 浮点数                         |
-| DOUBLE PRECISION | 双精度浮点数                   |
-| FLOAT(n)         | 精度至少为n位数字的浮点数      |
-| NUMERIC(p,d)     | 由p位数字，d位小数组成的浮点数 |
+| 数据类型 | 解释 |
+| - | - |
+| INTEGER | 长整数 |
+| SMALLINT | 短整数 |
+| REAl | 浮点数 |
+| DOUBLE PRECISION | 双精度浮点数 |
+| FLOAT(n) | 精度至少为n位数字的浮点数 |
+| NUMERIC(p,d) | 由p位数字，d位小数组成的浮点数 |
 
 字符串型
 
-| 数据类型   | 解释                    |
-| ---------- | ----------------------- |
-| CHAR(n)    | 长度为n的定长字符串     |
+| 数据类型 | 解释 |
+| - | - |
+| CHAR(n) | 长度为n的定长字符串 |
 | VARCHAR(n) | 最大长度为n的变长字符串 |
 
 位串型
 
-| 数据类型       | 解释                        |
-| -------------- | --------------------------- |
-| BIT(n)         | 长度为n的定长二进制位串     |
+| 数据类型 | 解释 |
+| - | - |
+| BIT(n) | 长度为n的定长二进制位串 |
 | BIT VARYING(n) | 最大长度为n的变长二进制位串 |
 
 时间型
 
-| 数据类型 | 解释       |
-| -------- | ---------- |
-| DATE     | YYYY-MM-DD |
-| TIME     | HH:MM:SS   |
+| 数据类型 | 解释 |
+| - | - |
+| DATE | YYYY-MM-DD |
+| TIME | HH:MM:SS |
+
+
 
 #### 3、基本表的创建、修改和撤销
 
@@ -323,7 +325,7 @@ SELECT <列名> FROM <表名1> WHERE <属性> [NOT] IN (SELECT <列名> FROM <�
 
 > SQL语言不存在全称量词，使用全程需要转换为不存在不满足（双重否定）。
 > $$
-> (\forall x) P \equiv \neg (\exist x) \neg P
+> (\forall x) P \equiv \neg (\exists x) \neg P
 > $$
 
 ```sql
@@ -336,10 +338,9 @@ SELECT cno,cname FROM c WHERE NOT EXISTS (SELECT sno FROM s WHERE NOT EXISTS (SE
 > $$
 
 求：所有选修 学号为S3的学生选修的课程 的学生的学号。
-
 设p：S3选修课程，q：Sx选修课程。
 $$
-\begin{split} (\forall c_y)(p \rightarrow q) \\ \equiv \neg(\exist c_y)\neg(p \rightarrow q) \\ \equiv \neg(\exist c_y)\neg(\neg p \lor q) \\ \equiv \neg(\exist c_y)( p \land \neg q) \end{split}
+(\forall c_y)(p \rightarrow q) \\ \equiv \neg(\exists c_y)\neg(p \rightarrow q) \\ \equiv \neg(\exists c_y)\neg(\neg p \lor q) \\ \equiv \neg(\exists c_y)( p \land \neg q)
 $$
 
 ```sql

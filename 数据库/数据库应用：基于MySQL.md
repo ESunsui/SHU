@@ -330,3 +330,58 @@ SELECT <列名> FROM <表名1> WHERE <属性> [NOT] IN (SELECT <列名> FROM <�
 SELECT cno,cname FROM c WHERE NOT EXISTS (SELECT sno FROM s WHERE NOT EXISTS (SELECT * FROM sc WHERE sno=s.sno AND cno=c.cno))
 ```
 
+> SQL不支持逻辑蕴含，使用需要转换。
+> $$
+> p \rightarrow q \equiv \neg p \lor q
+> $$
+
+求：所有选修 学号为S3的学生选修的课程 的学生的学号。
+
+设p：S3选修课程，q：Sx选修课程。
+$$
+\begin{split} (\forall c_y)(p \rightarrow q) \\ \equiv \neg(\exist c_y)\neg(p \rightarrow q) \\ \equiv \neg(\exist c_y)\neg(\neg p \lor q) \\ \equiv \neg(\exist c_y)( p \land \neg q) \end{split}
+$$
+
+```sql
+SELECT sno FROM sc x WHERE NOT EXiSTS (SELECT * FROM sc y WHERE sno='s3' AND NOT EXISTS (SELECT FROM sc z WHERE sno=x.sno and cno=y.cno))
+```
+
+
+
+### 四、SQL的数据操纵
+
+#### 1、数据插入
+
+一次插入一行
+
+```sql
+INSERT INTO <表名> [<属性名>] VALUES (<元组值>)
+```
+
+一次插入多行
+
+```sql
+INSERT INTO <表名> [<属性名>] VALUES (<元组值>), (<元组值>), (<元组值>)...
+```
+
+子查询插入
+
+```sql
+INSERT INTO <表名> [<属性名>] (子查询)
+```
+
+#### 2、数据删除
+
+删除满足条件的行
+
+```sql
+DELETE FROM <唯一表名> [WHERE <带子查询的条件表达式(IN)>]
+DELETE FROM s WHERE sno NOT IN (SELECT sno FROM sc)
+```
+
+#### 3、数据修改
+
+```sql
+UPDATE <表名> SET <列名>=<表达式> [WHERE <带子查询的条件表达式>]
+```
+

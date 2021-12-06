@@ -5,15 +5,15 @@ cursor = db.cursor()  # 获取游标
 
 
 def saveDataBase(table_name, datalist):  # 保存数据到数据库
-    for data in datalist:
-        if data != ['']:
-            try:
-                sql = 'INSERT INTO ' + table_name + ' VALUES (' + str(data) + ');'
-                print(sql)
-                cursor.execute(sql)  # 插入数据
-                db.commit()
-            except:
-                pass
+     for data in datalist:
+          if data != ['']:
+               try:
+                    sql = 'INSERT INTO ' + table_name + ' VALUES (' + str(data) + ');'
+                    print(sql)
+                    cursor.execute(sql)  # 插入数据
+                    db.commit()
+               except:
+                    pass
 
 
 s = ["'1101','李明',1,'1993-03-06','上海','13613005486','02'",

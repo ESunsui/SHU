@@ -238,7 +238,7 @@ SELECT <列名> FROM <表名> WHERE <属性> [NOT] IN <(集合)>
 **涉及空值**
 
 ```sql
-SELECT <列名> FROM <表名> WHERE <属性> IS [NOT] NULL 
+SELECT <列名> FROM <表名> WHERE <属性> IS [NOT] NULL
 ```
 
 **字符查询、通配符，模糊匹配**（`%`任意匹配，`_`匹配一次）

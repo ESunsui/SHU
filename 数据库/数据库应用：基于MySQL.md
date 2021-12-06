@@ -299,3 +299,34 @@ SELECT <列名> FROM <表名> AS <别名1>，<表名> AS <别名2> WHERE <别名
 SELECT <表名.列名> FROM <表名1>，<表名2> WHERE <表名1.键> = <表名2.键> AND <表名1.属性> = 'value' AND <表名2.属性> = 'value'
 ```
 
+**嵌套查询**  IN子查询（值 `IN` 集合，IN相当于$\in$）
+
+```sql
+SELECT <列名> FROM <表名> WHERE <属性> [NOT] IN (SELECT <列名> FROM <表名> WHERE <属性> = 'value')
+```
+
+**ANY,ALL比较子查询**
+
+```sql
+SELECT <列名> FROM <表名> WHERE <属性>=<条件> GROUP BY <属性> HAVING AVG(<属性>) > ALL (SELECT <列名> FROM <表名> WHERE <属性>=<条件>)
+等同于
+SELECT <列名> FROM <表名> WHERE <属性>=<条件> GROUP BY <属性> HAVING AVG(<属性>) > (SELECT MAX(<列名>) FROM <表名> WHERE <属性>=<条件>)
+```
+
+**EXISTS存在子查询**
+
+```sql
+SELECT <列名> FROM <表名1> WHERE <属性> [NOT] EXISTS (SELECT * FROM <表名2> WHERE <属性> = 'value' AND <表名1>.<属性>=<表名2>.<属性>)
+等同于
+SELECT <列名> FROM <表名1> WHERE <属性> [NOT] IN (SELECT <列名> FROM <表名2> WHERE <属性> = 'value')
+```
+
+> SQL语言不存在全称量词，使用全程需要转换为不存在不满足（双重否定）。
+> $$
+> (\forall x) P \equiv \neg (\exist x) \neg P
+> $$
+
+```sql
+SELECT cno,cname FROM c WHERE NOT EXISTS (SELECT sno FROM s WHERE NOT EXISTS (SELECT * FROM sc WHERE sno=s.sno AND cno=c.cno))
+```
+

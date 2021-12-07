@@ -65,3 +65,4 @@ WHERE NOT EXISTS (
         AND E.KH = O.KH));
 
 
+

@@ -1,3 +1,5 @@
+import numpy as np
+
 import mysql.connector
 
 db = mysql.connector.connect(host="localhost", user="root", passwd="123456", database="SCHOOL")  # 连接到数据库
@@ -5,15 +7,23 @@ cursor = db.cursor()  # 获取游标
 
 
 def saveDataBase(table_name, datalist):  # 保存数据到数据库
+    for data in datalist:
+        if data != ['']:
+            try:
+                sql = 'INSERT INTO ' + table_name + ' VALUES (' + str(data) + ');'
+                print(sql)
+                cursor.execute(sql)  # 插入数据
+                db.commit()
+            except:
+                pass
+
+def saveDataBase1(table_name, datalist):  # 保存数据到数据库
      for data in datalist:
           if data != ['']:
-               try:
-                    sql = 'INSERT INTO ' + table_name + ' VALUES (' + str(data) + ');'
-                    print(sql)
-                    cursor.execute(sql)  # 插入数据
-                    db.commit()
-               except:
-                    pass
+               sql = 'INSERT INTO ' + table_name + '(ID,DATA) VALUES ' + str(data) + ';'
+               print(sql)
+               cursor.execute(sql)  # 插入数据
+               db.commit()
 
 
 s = ["'1101','李明',1,'1993-03-06','上海','13613005486','02'",
@@ -66,11 +76,24 @@ e = ["'1101','2012-2013秋季','08305001','0103',60,60,60",
      "'1107','2012-2013冬季','08305003','0102',79,79,79",
      "'1107','2013-2014秋季','08305004','0101',null,null,null"]
 
-saveDataBase('D', d)
-saveDataBase('S', s)
-saveDataBase('T', t)
-saveDataBase('C', c)
-saveDataBase('O', o)
-saveDataBase('E', e)
+# saveDataBase('D', d)
+# saveDataBase('S', s)
+# saveDataBase('T', t)
+# saveDataBase('C', c)
+# saveDataBase('O', o)
+# saveDataBase('E', e)
+
+q = []
+
+for i in range(10000):
+     q = []
+     print(i/10000)
+     sql = ""
+     for j in range(1000):
+          if j > 0:
+               sql = sql + ','
+          sql = sql + "('" + str(1000*i + j) + "','" + str(np.random.randint(1, 10000000)) + "')"
+     q.append(sql)
+     saveDataBase1('TEST', q)
 
 db.close()  # 关闭数据库

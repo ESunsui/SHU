@@ -7,15 +7,15 @@ cursor = db.cursor()  # 获取游标
 
 
 def saveDataBase(table_name, datalist):  # 保存数据到数据库
-    for data in datalist:
-        if data != ['']:
-            try:
-                sql = 'INSERT INTO ' + table_name + ' VALUES (' + str(data) + ');'
-                print(sql)
-                cursor.execute(sql)  # 插入数据
-                db.commit()
-            except:
-                pass
+     for data in datalist:
+          if data != ['']:
+               try:
+                    sql = 'INSERT INTO ' + table_name + ' VALUES (' + str(data) + ');'
+                    print(sql)
+                    cursor.execute(sql)  # 插入数据
+                    db.commit()
+               except:
+                    pass
 
 def saveDataBase1(table_name, datalist):  # 保存数据到数据库
      for data in datalist:

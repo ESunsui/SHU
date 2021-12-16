@@ -7,7 +7,7 @@ n = length(A);
 D = [A,b];
 for i=1:n
     ts = i+1;
-    while D(i,i) == 0       %æ»¡ç§©ï¼Œå› è€Œç½®æ¢
+    while D(i,i) == 0       %ÂúÖÈ£¬Òò¶øÖÃ»»
         D([i,ts], :) = D([ts, i], :);
         ts = ts + 1;
     end

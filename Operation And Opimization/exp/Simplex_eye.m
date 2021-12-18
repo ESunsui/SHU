@@ -30,7 +30,7 @@ while true % 迭代求解
     [~, idx_k] = max(Sigma);    % 选出最大检验数,确定入基变量k
     % 判断无界解
     if all(A(:,idx_k) < 0)
-       error('无界解'); 
+        error('无界解');
     end
     % 确定换出变量l
     Theta = b ./ A(:,idx_k);

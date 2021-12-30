@@ -1,7 +1,8 @@
 """
 created on 2018-9-21
 Updated on 2018-9-21
-KNN : 决策树
+source: https://www.shuzhiduo.com/A/6pdDOGyG5w/
+决策树
 """
 import matplotlib
 import operator

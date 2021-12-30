@@ -242,7 +242,7 @@ SELECT <列名> FROM <表名> WHERE <属性> [NOT] IN <(集合)>
 **涉及空值**
 
 ```sql
-SELECT <列名> FROM <表名> WHERE <属性> IS [NOT] NULL 
+SELECT <列名> FROM <表名> WHERE <属性> IS [NOT] NULL
 ```
 
 **字符查询、通配符，模糊匹配**（`%`任意匹配，`_`匹配一次）
@@ -345,7 +345,7 @@ SELECT cno,cname FROM c WHERE NOT EXISTS (SELECT sno FROM s WHERE NOT EXISTS (SE
 
 设p：S3选修课程，q：Sx选修课程。
 $$
-(\forall c_y)(p \rightarrow q) \\ \equiv \neg(\exist c_y)\neg(p \rightarrow q) \\ \equiv \neg(\exist c_y)\neg(\neg p \lor q) \\ \equiv \neg(\exist c_y)( p \land \neg q)
+(\forall c_y) (p \rightarrow q) \\ \equiv \neg(\exist c_y) \neg(p \rightarrow q) \\ \equiv \neg(\exist c_y) \neg(\neg p \lor q) \\ \equiv \neg(\exist c_y) (p \land \neg q)
 $$
 
 ```sql
@@ -732,7 +732,7 @@ DBMS的工作模式如下：
   - 授权和完整性管理器
   - 事务管理器
   - 文件管理器
-  - 缓冲区管理器 
+  - 缓冲区管理器
 
 
 ### 五、数据库系统
@@ -853,7 +853,7 @@ DBMS的工作模式如下：
 
 - 关系代数语言：以集合操作为基础；
 - 关系演算语言：以谓词演算为基础； 元组关系演算语言和域关系演算语言；
-- 基于关系代数和关系演算语言双重特点的语言： SQL 
+- 基于关系代数和关系演算语言双重特点的语言： SQL
 
 #### 2、关系代数的五个基本运算
 
@@ -863,31 +863,31 @@ DBMS的工作模式如下：
 
 任取元组t，当且仅当$t\in R$或$t\in S$时，$t\in R\cup S$
 $$
-R\cup S\equiv \left\{ t|t\in R \lor t\in S \right\}
+R \cup S \equiv \left\{ t | t \in R \lor t \in S \right\}
 $$
 2、差
 
 任取元组t，当且仅当$t\in R$且$t\notin S$时，$t\in R-S$
 $$
-R-S\equiv \left\{ t|t\in R \land t\notin S \right\}
+R - S \equiv \left\{ t | t \in R \land t \notin S \right\}
 $$
 3、笛卡尔积
 
 设R与S的元数为r与s，R和S的笛卡尔积$R\times S$是一个(r+s)元的元组集合，每个元组的前r个分量是R的一个元组，后s个分量是S的一个元组。
 $$
-R \times S \equiv \left\{ t|t=<t^r,t^s> \quad \and \quad t^r\in R \quad \and \quad t^s \in S \right\}
+R \times S \equiv \left\{ t | t = <t^r, t^s> \quad \land \quad t^r \in R \quad \land \quad t^s \in S \right\}
 $$
 4、投影
 
 对一个关系进行垂直分割,消去某些列，并重新安排列的顺序,再删去重复元组。
 $$
-\Pi_{i1,i2,\dots,im}(R) \equiv \left\{ t|t=<t_{i1},t_{i2},\dots,t_{im}> \and <t_1,\dots,t_k> \in R \right\}
+\Pi_{i_1, i_2, \dots, i_m} (R) \equiv \left\{ t | t = <t_{i_1}, t_{i_2}, \dots, t_{i_m}> \land <t_1, \dots, t_k> \in R \right\}
 $$
 5、选择
 
 根据某些条件对关系做水平分割,选择符合条件的元组。选择运算是在一个关系中,选取符合某给定条件的全体元组,生成的新关系。
 $$
-\sigma_F(R)\equiv \left\{ t|t \in R \and F(t)\in True\right\}
+\sigma_F(R) \equiv \left\{ t | t \in R \land F(t) \in True \right\}
 $$
 
 #### 3、关系代数的组合操作
@@ -896,41 +896,39 @@ $$
 
 任取元组t，当且仅当$t\in R$且$t\in S$时，$t\in R\cap S$
 $$
-R\cap S \equiv \left\{ t|t\in R \and t\in S \right\}
+R \cap S \equiv \left\{ t | t \in R \land t \in S \right\}
 $$
 关系的交可以由关系的差来表示
 $$
-R\cap S \equiv R-(R-S) \equiv S-(S-R)
+R \cap S \equiv R - (R-S) \equiv S - (S-R)
 $$
 7、联接
 
 联接操作是笛卡儿积、选择操作的组合。
 $$
-R\mathop{\Join}\limits_{A\theta B}S=\sigma_{A\theta B}(R\times S)
+R \mathop{\Join} \limits_{A\theta B} S = \sigma_{A \theta B} (R \times S)
 $$
 8、自然联接
 
 将关系R和S中公共属性组满足对应分量相等的元组联接起来， 并且在结果中把重复的属性去除
 $$
-R\Join S\equiv \Pi_{RemoveCommonAttributeFromS}(\sigma_{EqualCommonAttribute}(R\times S))
+R \Join S \equiv \Pi_{RemoveCommonAttributeFromS}(\sigma_{EqualCommonAttribute}(R \times S))
 $$
 
 
 9、除
 $$
-Assume \quad rank(R)=r,rank(S)=s,\quad r>s>0\\
-R \div S \equiv \left\{ t|t<t,w> \in R \quad \and \quad w \in S \right\}
+Assume \quad rank(R)=r, rank(S)=s, \quad r>s>0\\
+R \div S \equiv \left\{ t | t<t,w> \in R \quad \land \quad w \in S \right\}
 $$
 
 #### 4、关系代数表达式
 
 已知关系模式
 
-   S（Sno，SName，Age，Sex），
-
-   C（Cno，CName，Tname），
-
-   SC（Sno，Cno，Grade）
+    S（Sno，SName，Age，Sex），
+    C（Cno，CName，Tname），
+    SC（Sno，Cno，Grade）
 
 1、求选修C2课程的学生号码。
 
@@ -950,11 +948,11 @@ $\Pi_{sno}(S)-\Pi_{sno}(\sigma_{cname='高等数学'}(SC\Join C))$
 
 5、求选修课程号为C2或C4的学生号码
 
-$\Pi_{sno}(\sigma_{cno='C2' \or cno='C4'}(SC))$
+$\Pi_{sno}(\sigma_{cno='C2' \lor cno='C4'}(SC))$
 
 6、求选修课程号为C2和C4的学生号码（出现'和'，发生自联接，使用笛卡尔积）
 
-$\Pi_1(\sigma_{1=4\and2='c2'\and5='c4'}(SC\times SC))$
+$\Pi_1(\sigma_{1=4 \land 2='c2' \land 5='c4'}(SC \times SC))$
 
 7、求选修全部课程的学生号码和姓名（出现‘全部’，使用除运算）
 
@@ -986,6 +984,6 @@ $\Pi_{sno,cno}(SC)\div \Pi_{cno}(\sigma_{sno='S3'}(SC))$
 
 R和S的自然联接在关系R的属性集上的投影
 $$
-R\ltimes S\equiv \Pi_R(R \Join S)
+R \ltimes S \equiv \Pi_R(R \Join S)
 $$
 
